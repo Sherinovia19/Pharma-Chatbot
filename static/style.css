@@ -1,88 +1,93 @@
 body {
   margin: 0;
-  font-family: Poppins, sans-serif;
-  background: linear-gradient(135deg, #e8f1f8, #cfe4f3);
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #f0f7fa, #dcebf5);
   height: 100vh;
-  overflow: hidden;
 }
 
 .app {
   max-width: 600px;
   margin: auto;
-  padding: 30px;
-  height: 100vh;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  border-radius: 15px;
+  background: #ffffff;
 }
 
 h1 {
   text-align: center;
-  color: #2a5c9a;
-  font-weight: 700;
+  color: #0d4a8b;
+  margin-bottom: 5px;
 }
 
 .subtitle {
   text-align: center;
   color: #555;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
 }
 
 #chat {
   flex: 1;
   overflow-y: auto;
-  padding: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .user, .bot {
+  padding: 12px 15px;
   margin-bottom: 12px;
-  max-width: 80%;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
 }
 
 .user {
-  align-self: flex-end;
-  background: #2a5c9a;
+  background: #0d4a8b;
   color: white;
-  padding: 10px;
-  border-radius: 12px;
+  margin-left: auto;
 }
 
 .bot {
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 12px;
+  background: #e6f4ea;
+  color: #0d4a8b;
+  border-left: 4px solid #28a745;
 }
 
 .input-box {
   display: flex;
+  margin-top: 10px;
 }
 
 input {
   flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
 }
 
 button {
-  background: #2a5c9a;
+  background: #0d4a8b;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  margin-left: 5px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-left: 6px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.floating {
-  position: absolute;
-  font-size: 24px;
-  opacity: 0.08;
-  animation: float 12s infinite linear;
+button:hover {
+  background: #093366;
 }
 
-.delay { animation-delay: 4s; }
-.slow { animation-duration: 18s; }
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-100px); }
+.typing {
+  font-style: italic;
+  opacity: 0.7;
 }
