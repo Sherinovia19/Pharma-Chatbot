@@ -49,16 +49,4 @@ async function sendMessage() {
     }
 }
 
-function quickAction(type) {
-    if(type==="scan") sendQuick("Check medicine: ");
-    if(type==="storage") sendQuick("How should I store ");
-    if(type==="side_effects") sendQuick("Side effects of ");
-}
-
-function sendQuick(text) {
-    input.value = text;
-    sendMessage();
-}
-
 input.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
-
