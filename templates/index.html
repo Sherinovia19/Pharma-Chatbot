@@ -9,31 +9,48 @@
 <body>
 <div class="app-container">
 
+  <!-- Header -->
   <header class="app-header">
     <h1>💊 MedCheck AI</h1>
     <p>Your AI Medicine Safety Assistant</p>
   </header>
 
-  <div class="quick-actions">
-    <button onclick="quickAction('scan')">Scan Batch #</button>
-    <button onclick="quickAction('storage')">Check Storage</button>
-    <button onclick="quickAction('side_effects')">Side Effects</button>
-  </div>
+  <!-- Main content -->
+  <div class="main-content">
 
-  <div id="chat-box" class="chat-box">
-    <div class="bot-message">
-      Hello! 👋 I can help you check medicine safety, batch recalls, and storage advice.
+    <!-- Left panel: Chat -->
+    <div class="chat-panel">
+      <div class="quick-actions">
+        <button onclick="quickAction('scan')">Scan Batch #</button>
+        <button onclick="quickAction('storage')">Check Storage</button>
+        <button onclick="quickAction('side_effects')">Side Effects</button>
+      </div>
+
+      <div id="chat-box" class="chat-box">
+        <div class="bot-message">
+          Hello! 👋 I can help you check medicine safety, batch recalls, and storage advice.
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" id="message-input" placeholder="Type your medicine or question...">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+
+      <footer class="disclaimer">
+        ⚠️ AI-generated info; consult a pharmacist for medical decisions.
+      </footer>
     </div>
-  </div>
 
-  <div class="chat-input">
-    <input type="text" id="message-input" placeholder="Type your medicine or question...">
-    <button onclick="sendMessage()">Send</button>
-  </div>
+    <!-- Right panel: Dashboard -->
+    <div class="dashboard-panel">
+      <h2>Dashboard</h2>
+      <div id="dashboard-cards" class="dashboard-cards">
+        <!-- Safety cards populate dynamically -->
+      </div>
+    </div>
 
-  <footer class="disclaimer">
-    ⚠️ AI-generated info; consult a pharmacist for medical decisions.
-  </footer>
+  </div>
 
 </div>
 <script src="{{ url_for('static', filename='chat.js') }}"></script>
