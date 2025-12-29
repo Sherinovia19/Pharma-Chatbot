@@ -1,84 +1,50 @@
-/* Background */
 body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-    min-height: 100vh;
-}
-body::before {
-    content: "";
-    position: fixed;
-    top:0; left:0;
-    width: 100%; height:100%;
-    background-image: url('https://www.transparenttextures.com/patterns/geometry.png');
-    opacity: 0.03;
-    z-index: -1;
+  margin:0; font-family:'Inter',sans-serif;
+  background: linear-gradient(135deg,#e0f2f1,#f0f4f8);
+  min-height:100vh;
 }
 
-/* Container */
-.app-container { max-width: 1200px; margin:auto; display:flex; flex-direction:column; height:100vh; }
-.app-header { text-align:center; background:#2A5C9A; color:white; padding:20px; border-radius:0 0 15px 15px; }
+.app-container {
+  max-width:1200px; margin:auto;
+  display:flex; flex-direction:column; height:100vh;
+}
 
-/* Main layout */
-.main-content { display:flex; flex:1; gap:20px; padding:10px; }
+.app-header {
+  text-align:center; background:#2A5C9A;
+  color:white; padding:20px; border-radius:0 0 15px 15px;
+}
 
-/* Panels */
+.main-content { display:flex; flex:1; gap:20px; padding:15px; }
+
 .chat-panel, .dashboard-panel {
-    background:#ffffff;
-    border-radius:15px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    padding:15px;
-    display:flex;
-    flex-direction:column;
+  background:white; border-radius:15px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  padding:15px; display:flex; flex-direction:column;
 }
+
 .chat-panel { flex:2; }
 .dashboard-panel { flex:1; overflow-y:auto; }
 .dashboard-panel h2 { font-size:18px; font-weight:bold; margin-bottom:10px; }
+
 .dashboard-cards { display:flex; flex-direction:column; gap:10px; }
 
-/* Quick Action Chips */
-.quick-actions { display:flex; gap:10px; padding:10px; flex-wrap:wrap; }
-.quick-actions button {
-    background:#2A5C9A;
-    color:white;
-    padding:7px 15px;
-    border-radius:25px;
-    cursor:pointer;
-    font-weight:bold;
-}
-.quick-actions button:hover { background:#1f456f; }
-
-/* Chat box */
 .chat-box {
-    flex:1;
-    padding:10px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    border-radius:15px;
-    background:#f0f4f8;
+  flex:1; padding:10px; overflow-y:auto;
+  display:flex; flex-direction:column; gap:10px;
+  border-radius:15px; background:#f0f4f8;
 }
 
-/* Chat bubbles */
 .bot-message { background:#DCE6F1; padding:10px; border-radius:15px; max-width:80%; }
 .user-message { background:#2A5C9A; color:white; padding:10px; border-radius:15px; max-width:80%; align-self:flex-end; }
 
-/* Input */
 .chat-input { display:flex; gap:10px; padding:10px; margin-top:10px; }
-.chat-input input {
-    flex:1; padding:10px; border-radius:25px; border:1px solid #cbd5e0;
-}
-.chat-input button {
-    padding:10px 15px; border-radius:25px; background:#27AE60; color:white; border:none; cursor:pointer; font-weight:bold;
-}
+.chat-input input { flex:1; padding:10px; border-radius:25px; border:1px solid #cbd5e0; }
+.chat-input button { padding:10px 15px; border-radius:25px; background:#27AE60; color:white; border:none; cursor:pointer; font-weight:bold; }
 .chat-input button:hover { background:#219653; }
 
-/* Dashboard cards */
 .dashboard-card { padding:10px; border-radius:10px; font-weight:bold; color:white; }
 .safe { background:#27AE60; }
 .near-expiry { background:#F2C94C; color:#000; }
 .recalled, .expired { background:#EB5757; }
 
-/* Disclaimer */
 .disclaimer { text-align:center; padding:5px; font-size:12px; color:#555; margin-top:5px; }
