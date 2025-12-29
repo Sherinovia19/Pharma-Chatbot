@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MedCheck AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    background: #f1f5f9; /* Light gray background */
+  }
+
+  /* Chat scrollbar */
+  #chat-box::-webkit-scrollbar {
+    width: 6px;
+  }
+  #chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+  }
+
+  /* Quick floating icons background */
+  .floating-icon {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.1;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-50px) rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating medicine emojis -->
+<script>
+  const icons = ["💊","💉","🩺","🧴"];
+  for(let i=0;i<15;i++){
+    const icon = document.createElement("div");
+    icon.classList.add("floating-icon");
+    icon.innerText = icons[Math.floor(Math.random()*icons.length)];
+    icon.style.left = Math.random()*window.innerWidth + "px";
+    icon.style.fontSize = 20 + Math.random()*30 + "px";
+    icon.style.animationDuration = 10 + Math.random()*15 + "s";
+    document.body.appendChild(icon);
+  }
+</script>
+
+<div class="flex h-screen">
+  <!-- Left Panel: Quick Medicine Check -->
+  <div class="w-1/3 bg-white p-6 flex flex-col gap-6 shadow-lg">
+    <h2 class="text-2xl font-bold text-gray-800">Quick Medicine Check</h2>
+
+    <div class="flex flex-col gap-4">
+      <label class="text-gray-600 font-medium">Medicine Name *</label>
+      <input id="medicine-name" type="text" placeholder="e.g., Tylenol" class="rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+
+      <label class="text-gray-600 font-medium"># Batch Number</label>
+      <input id="batch-number" type="text" placeholder="e.g., ABC-123" class="rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+
+      <label class="text-gray-600 font-medium">Expiry Date</label>
+      <input id="expiry-date" type="date" class="rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      
+      <button onclick="checkMedicine()" class="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 font-bold">Check Medicine</button>
+    </div>
+
+    <hr class="border-gray-200"/>
+
+    <div>
+      <h3 class="font-semibold text-gray-700 mb-2">Quick Tips 💡</h3>
+      <ul class="text-gray-600 list-disc list-inside text-sm">
+        <li>Ask about any medicine by name</li>
+        <li>Check batch numbers for recalls</li>
+        <li>Get storage recommendations</li>
+        <li>Ask general health questions</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Right Panel: Chat -->
+  <div class="flex-1 flex flex-col bg-white shadow-lg rounded-l-2xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-blue-500 text-white py-4 px-6 font-bold text-xl flex justify-between items-center">
+      <span>MedCheck AI</span>
+      <span id="user-email" class="text-sm opacity-70">user@example.com</span>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chat-box" class="flex-1 p-6 overflow-y-auto flex flex-col gap-4 bg-gray-50">
+      <!-- Default Bot Message -->
+      <div class="flex items-start gap-2">
+        <div class="text-2xl">🤖</div>
+        <div class="bg-blue-100 text-gray-800 px-4 py-2 rounded-2xl max-w-[75%]">
+          Hello! 👋 I'm your MedCheck AI assistant. I can help you check medicine expiry dates, batch recalls, and storage guidance. How can I help you today?
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="flex p-4 bg-gray-100 gap-2">
+      <input id="message-input" type="text" placeholder="Ask me anything about medicines..." 
+             class="flex-1 rounded-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      <button onclick="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("message-input");
+
+function appendMessage(text,sender,type="normal"){
+  const msgDiv=document.createElement("div");
+  const bubbleDiv=document.createElement("div");
+  bubbleDiv.classList.add("px-4","py-2","rounded-2xl","max-w-[75%]");
+
+  if(sender==="user"){
+    bubbleDiv.classList.add("bg-blue-500","text-white","self-end");
+    msgDiv.classList.add("flex","justify-end");
+  } else {
+    const avatarDiv=document.createElement("div");
+    avatarDiv.classList.add("text-2xl");
+    avatarDiv.innerText="🤖";
+    msgDiv.classList.add("flex","items-start","gap-2");
+
+    if(type==="safe") bubbleDiv.classList.add("bg-green-100","text-green-800");
+    else if(type==="near_expiry") bubbleDiv.classList.add("bg-yellow-100","text-yellow-800");
+    else if(type==="expired" || type==="recalled") bubbleDiv.classList.add("bg-red-100","text-red-800");
+    else bubbleDiv.classList.add("bg-blue-100","text-gray-800");
+
+    msgDiv.appendChild(avatarDiv);
+  }
+
+  bubbleDiv.innerText=text;
+  msgDiv.appendChild(bubbleDiv);
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop=chatBox.scrollHeight;
+}
+
+async function sendMessage(){
+  const message=input.value.trim();
+  if(!message) return;
+  appendMessage(message,"user");
+  input.value="";
+
+  // Typing indicator
+  const typingDiv=document.createElement("div");
+  typingDiv.classList.add("flex","items-start","gap-2");
+  const avatarTyping=document.createElement("div");
+  avatarTyping.classList.add("text-2xl");
+  avatarTyping.innerText="🤖";
+  const bubbleTyping=document.createElement("div");
+  bubbleTyping.classList.add("bg-blue-100","text-gray-800","px-4","py-2","rounded-2xl","max-w-[75%]");
+  bubbleTyping.innerText="...";
+  typingDiv.appendChild(avatarTyping);
+  typingDiv.appendChild(bubbleTyping);
+  chatBox.appendChild(typingDiv);
+  chatBox.scrollTop=chatBox.scrollHeight;
+
+  try{
+    const response=await fetch("/api/message",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message})
+    });
+    const data=await response.json();
+    chatBox.removeChild(typingDiv);
+
+    let type="normal";
+    if(data.reply.toLowerCase().includes("expired")||data.reply.toLowerCase().includes("recalled")) type="expired";
+    else if(data.reply.toLowerCase().includes("near expiry")) type="near_expiry";
+    else if(data.reply.toLowerCase().includes("ok")) type="safe";
+
+    appendMessage(data.reply,"bot",type);
+  }catch(err){
+    chatBox.removeChild(typingDiv);
+    appendMessage("Error connecting to server.","bot","expired");
+  }
+}
+
+// Quick Medicine Check button functionality
+function checkMedicine(){
+  const name=document.getElementById("medicine-name").value.trim();
+  const batch=document.getElementById("batch-number").value.trim();
+  const expiry=document.getElementById("expiry-date").value;
+  if(!name) return alert("Please enter medicine name");
+  const msg=`Check medicine: ${name}, Batch: ${batch || 'N/A'}, Expiry: ${expiry || 'N/A'}`;
+  appendMessage(msg,"user");
+  input.value=msg;
+  sendMessage();
+}
+
+input.addEventListener("keypress",function(e){if(e.key==="Enter") sendMessage();});
+</script>
+
+</body>
+</html>
+
