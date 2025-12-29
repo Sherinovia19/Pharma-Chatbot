@@ -13,7 +13,6 @@
     <input id="medicine-name" type="text" placeholder="Medicine Name *">
     <input id="batch-number" type="text" placeholder="Batch Number">
     <input id="expiry-date" type="date" placeholder="Expiry Date">
-    <button id="start-chat" onclick="startChat()">Start Chat</button>
     <div class="tips">
       <h3>Quick Tips 💡</h3>
       <ul>
@@ -27,17 +26,16 @@
   <!-- Right Panel -->
   <div class="right-panel">
     <div class="chat-header">MedCheck AI</div>
-    <div id="chat-box" class="chat-box hidden">
-      <!-- Messages appear here -->
+    <div id="chat-box" class="chat-box">
+      <div class="message bot">Hello! 👋 I'm your MedCheck AI assistant. How can I help you today?</div>
     </div>
-    <div class="chat-input hidden">
+    <div class="chat-input">
       <input id="message-input" type="text" placeholder="Ask me anything about medicines...">
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 </div>
 
-<script src="{{ url_for('static', filename='chat.js') }}"></script>
 <script>
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("message-input");
@@ -48,12 +46,6 @@ function appendMessage(text, sender) {
   msgDiv.innerText = text;
   chatBox.appendChild(msgDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function startChat() {
-  document.getElementById("chat-box").classList.remove("hidden");
-  document.querySelector(".chat-input").classList.remove("hidden");
-  appendMessage("Hello! 👋 I'm your MedCheck AI assistant. How can I help you today?", "bot");
 }
 
 function sendMessage() {
@@ -76,3 +68,4 @@ input.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
 </script>
 </body>
 </html>
+
