@@ -1,43 +1,38 @@
-const chatBox = document.getElementById("chat-box");
-const input = document.getElementById("message");
+const chat = document.getElementById("chat");
 
-function addMessage(text, sender) {
-  const div = document.createElement("div");
-  div.className = sender;
-  div.innerHTML = text.replace(/\n/g, "<br>");
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
+function add(text, cls) {
+  const d = document.createElement("div");
+  d.className = cls;
+  d.innerText = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function showTyping() {
-  const div = document.createElement("div");
-  div.id = "typing";
-  div.className = "bot typing";
-  div.innerText = "🤖 typing...";
-  chatBox.appendChild(div);
-}
+function send() {
+  const input = document.getElementById("msg");
+  const text = input.value.trim();
+  if (!text) return;
 
-function removeTyping() {
-  const t = document.getElementById("typing");
-  if (t) t.remove();
-}
-
-async function sendMessage() {
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  addMessage(msg, "user");
+  add(text, "user");
   input.value = "";
 
-  showTyping();
+  const typing = document.createElement("div");
+  typing.className = "bot";
+  typing.innerText = "Typing...";
+  chat.appendChild(typing);
 
-  const res = await fetch("/api/message", {
+  fetch("/api/message", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ message: msg })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
+  })
+  .then(r => r.json())
+  .then(d => {
+    typing.remove();
+    add(d.reply, "bot");
+  })
+  .catch(() => {
+    typing.remove();
+    add("Something went wrong.", "bot");
   });
-
-  const data = await res.json();
-  removeTyping();
-  addMessage(data.reply, "bot");
 }
