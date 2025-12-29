@@ -1,62 +1,88 @@
 body {
-  background: linear-gradient(135deg, #2A5C9A, #1E3C72);
-  font-family: Arial;
-}
-
-.chat-container {
-  width: 420px;
-  margin: 40px auto;
-  background: #f9fbfd;
-  border-radius: 12px;
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  background: linear-gradient(135deg, #e8f1f8, #cfe4f3);
+  height: 100vh;
   overflow: hidden;
 }
 
-.header {
-  background: #2A5C9A;
-  color: white;
-  padding: 14px;
-  font-weight: bold;
+.app {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-#chat-box {
-  height: 420px;
-  padding: 10px;
+h1 {
+  text-align: center;
+  color: #2a5c9a;
+  font-weight: 700;
+}
+
+.subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+#chat {
+  flex: 1;
   overflow-y: auto;
+  padding: 15px;
+}
+
+.user, .bot {
+  margin-bottom: 12px;
+  max-width: 80%;
 }
 
 .user {
-  text-align: right;
-  margin: 8px;
-  color: #2A5C9A;
+  align-self: flex-end;
+  background: #2a5c9a;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
 }
 
 .bot {
-  background: #eef3f8;
-  padding: 8px;
-  border-radius: 8px;
-  margin: 8px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 12px;
 }
 
-.typing {
-  opacity: 0.6;
-  font-style: italic;
-}
-
-.input-bar {
+.input-box {
   display: flex;
-  border-top: 1px solid #ccc;
 }
 
 input {
   flex: 1;
   padding: 10px;
+  border-radius: 8px;
   border: none;
 }
 
 button {
-  background: #27AE60;
+  background: #2a5c9a;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-left: 5px;
 }
 
+.floating {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.08;
+  animation: float 12s infinite linear;
+}
+
+.delay { animation-delay: 4s; }
+.slow { animation-duration: 18s; }
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-100px); }
+}
