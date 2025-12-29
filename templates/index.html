@@ -4,36 +4,28 @@
 <meta charset="UTF-8">
 <title>MedCheck AI</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="{{ url_for('static', filename='chat.js') }}" defer></script>
 </head>
 <body>
 <div class="app-container">
 
-  <!-- Header -->
   <header class="app-header">
     <h1> MedCheck AI</h1>
     <p>Your AI Medicine Safety Assistant</p>
   </header>
 
-  <!-- Main content -->
   <div class="main-content">
 
-    <!-- Left panel: Chat -->
+    <!-- Chat panel -->
     <div class="chat-panel">
-      <div class="quick-actions">
-        <button onclick="quickAction('scan')">Scan Batch #</button>
-        <button onclick="quickAction('storage')">Check Storage</button>
-        <button onclick="quickAction('side_effects')">Side Effects</button>
-      </div>
-
       <div id="chat-box" class="chat-box">
         <div class="bot-message">
-          Hello! 👋 I can help you check medicine safety, batch recalls, and storage advice.
+          Hello! 👋 I can help you check medicine safety, batch recalls, and storage guidance.
         </div>
       </div>
 
       <div class="chat-input">
-        <input type="text" id="message-input" placeholder="Type your medicine or question...">
+        <input type="text" id="message-input" placeholder="Type your medicine, batch #, or expiry...">
         <button onclick="sendMessage()">Send</button>
       </div>
 
@@ -42,17 +34,15 @@
       </footer>
     </div>
 
-    <!-- Right panel: Dashboard -->
+    <!-- Dashboard panel -->
     <div class="dashboard-panel">
       <h2>Dashboard</h2>
-      <div id="dashboard-cards" class="dashboard-cards">
-        <!-- Safety cards populate dynamically -->
-      </div>
+      <div id="dashboard-cards" class="dashboard-cards"></div>
     </div>
 
   </div>
 
 </div>
-<script src="{{ url_for('static', filename='chat.js') }}"></script>
 </body>
 </html>
+
