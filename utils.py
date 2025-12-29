@@ -1,96 +1,67 @@
-import json
-import re
 from datetime import datetime, timedelta
 from dateutil.parser import parse
+import json, re
 
-# Load recalled batches
 with open("recalled_batches.json", "r") as f:
     RECALLED_DB = json.load(f)
 
-# Predefined storage guidance
-STORAGE_GUIDANCE = {
-    "vitamin d": "Store in a cool, dry place away from sunlight.",
-    "paracetamol": "Keep below 25°C and avoid moisture.",
-    "amoxicillin": "Store in a dry place, do not freeze.",
-    "default": "Store in a cool, dry place away from sunlight."
-}
-
 def parse_date(text):
-    dates = re.findall(r"\d{4}-\d{2}-\d{2}", text)
-    if dates:
-        try:
-            return parse(dates[0])
-        except:
-            return None
-    try:
-        return parse(text)
-    except:
-        return None
+    date_patterns = re.findall(r"\b\d{4}-\d{2}-\d{2}\b", text)
+    if date_patterns:
+        try: return parse(date_patterns[0])
+        except: return None
+    try: return parse(text)
+    except: return None
 
 def check_expiry(expiry_date):
     today = datetime.now()
-    if expiry_date < today:
-        return "expired"
-    if expiry_date <= today + timedelta(days=90):
-        return "near_expiry"
+    if expiry_date < today: return "expired"
+    if expiry_date <= today + timedelta(days=90): return "near_expiry"
     return "ok"
 
-def check_recalled(name, batch):
-    key = name.lower().strip()
+def check_recalled(medicine_name, batch_number):
+    if not medicine_name: return None
+    key = medicine_name.lower().strip()
     batches = RECALLED_DB.get(key, [])
     for b in batches:
-        if b.get("batch", "").lower() == batch.lower():
-            return b
+        if b.get("batch","").lower() == batch_number.lower(): return b
     return None
 
-def normalize_name(name):
-    text = name.lower()
-    text = re.sub(r"\b(tablet|capsule|syrup|cream|ointment|injection|ml|mg|exp|batch)\b", "", text)
-    text = re.sub(r"[^a-z0-9 ]", " ", text)
-    text = re.sub(r"\s+", " ", text).strip()
+def extract_batch(text):
+    match = re.search(r"\b([A-Za-z]{1,5}-?\d{1,5})\b", text)
+    return match.group(1) if match else ""
+
+def normalize_medicine_name(text):
+    text = text.lower().strip()
+    text = re.sub(r"\b(tablet|capsule|syrup|cream|ointment|injection|ml|mg|exp|batch)\b","",text)
+    text = re.sub(r"[^a-z0-9 ]"," ",text)
+    text = re.sub(r"\s+"," ",text).strip()
     return text
 
-def get_bot_response(message):
-    message = message.lower()
-    
-    # Check storage advice
-    for med in STORAGE_GUIDANCE:
-        if med in message:
-            return STORAGE_GUIDANCE[med]
-    
-    # Check medicine, batch, expiry
-    med_match = re.search(r"(check medicine: )([a-zA-Z0-9 ]+)", message)
-    if med_match:
-        med_name = normalize_name(med_match.group(2))
-        batch_match = re.search(r"batch: ([a-zA-Z0-9-]+)", message)
-        batch_number = batch_match.group(1) if batch_match else ""
-        expiry_match = re.search(r"expiry: ([0-9-]+)", message)
-        expiry_text = expiry_match.group(1) if expiry_match else ""
-        expiry_date = parse_date(expiry_text)
-        
-        reply = f"Medicine: {med_name.title()}\n"
-        
-        if batch_number:
-            reply += f"Batch: {batch_number}\n"
-        if expiry_date:
-            status = check_expiry(expiry_date)
-            if status=="expired":
-                reply += f"Status: ❌ Expired"
-            elif status=="near_expiry":
-                reply += f"Status: ⚠️ Near Expiry"
-            else:
-                reply += f"Status: ✅ Safe"
-        else:
-            reply += "Expiry: N/A"
+def get_bot_response(text):
+    med_name = normalize_medicine_name(text)
+    batch = extract_batch(text)
+    expiry_date = parse_date(text)
 
-        recalled = check_recalled(med_name, batch_number)
-        if recalled:
-            reply += f"\n⚠️ This batch has been recalled: {recalled.get('reason','Unknown')}"
-        
-        return reply
-    
-    # Default generic reply
-    return "I'm here to help you with medicine expiry, batch recalls, and storage advice. Try typing 'Check medicine: Paracetamol, Batch: ABC-123, Expiry: 2025-12-29' or ask 'How should I store Vitamin D tablets?'"
+    recall = check_recalled(med_name, batch)
+    if recall:
+        return f"❌ ALERT! {med_name.title()} batch {batch} has been recalled due to {recall['reason']}."
+
+    if expiry_date:
+        status = check_expiry(expiry_date)
+        if status == "expired":
+            return f"❌ {med_name.title()} is expired as of {expiry_date.date()}."
+        elif status == "near_expiry":
+            return f"⚠️ {med_name.title()} will expire soon on {expiry_date.date()}."
+        else:
+            return f"✅ {med_name.title()} is safe to use until {expiry_date.date()}."
+
+    if "store" in text.lower():
+        return f"🌡️ Store {med_name.title()} in a cool, dry place away from sunlight."
+
+    return f"💡 I can check expiry, batch recalls, or storage info for {med_name.title()}."
+
+
 
 
 
