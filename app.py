@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, render_template
 from utils import get_bot_response
 
@@ -19,4 +20,5 @@ def message():
         return jsonify({"reply": "⚠️ Bot encountered an error. Please try again."})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
