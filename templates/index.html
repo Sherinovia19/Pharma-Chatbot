@@ -1,48 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>MedCheck AI</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='chat.js') }}" defer></script>
+  <title>MedCheck AI</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<div class="app-container">
+  <div class="chat-container">
+    <div class="header"> MedCheck AI</div>
 
-  <header class="app-header">
-    <h1> MedCheck AI</h1>
-    <p>Your AI Medicine Safety Assistant</p>
-  </header>
+    <div id="chat-box"></div>
 
-  <div class="main-content">
-
-    <!-- Chat panel -->
-    <div class="chat-panel">
-      <div id="chat-box" class="chat-box">
-        <div class="bot-message">
-          Hello! 👋 I can help you check medicine safety, batch recalls, and storage guidance.
-        </div>
-      </div>
-
-      <div class="chat-input">
-        <input type="text" id="message-input" placeholder="Type your medicine, batch #, or expiry...">
-        <button onclick="sendMessage()">Send</button>
-      </div>
-
-      <footer class="disclaimer">
-        ⚠️ AI-generated info; consult a pharmacist for medical decisions.
-      </footer>
+    <div class="input-bar">
+      <input id="message" placeholder="Ask about medicine safety..." />
+      <button onclick="sendMessage()">Send</button>
     </div>
-
-    <!-- Dashboard panel -->
-    <div class="dashboard-panel">
-      <h2>Dashboard</h2>
-      <div id="dashboard-cards" class="dashboard-cards"></div>
-    </div>
-
   </div>
 
-</div>
+  <script src="/static/chat.js"></script>
 </body>
 </html>
+
 
