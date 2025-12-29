@@ -1,50 +1,62 @@
 body {
-  margin:0; font-family:'Inter',sans-serif;
-  background: linear-gradient(135deg,#e0f2f1,#f0f4f8);
-  min-height:100vh;
+  background: linear-gradient(135deg, #2A5C9A, #1E3C72);
+  font-family: Arial;
 }
 
-.app-container {
-  max-width:1200px; margin:auto;
-  display:flex; flex-direction:column; height:100vh;
+.chat-container {
+  width: 420px;
+  margin: 40px auto;
+  background: #f9fbfd;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.app-header {
-  text-align:center; background:#2A5C9A;
-  color:white; padding:20px; border-radius:0 0 15px 15px;
+.header {
+  background: #2A5C9A;
+  color: white;
+  padding: 14px;
+  font-weight: bold;
 }
 
-.main-content { display:flex; flex:1; gap:20px; padding:15px; }
-
-.chat-panel, .dashboard-panel {
-  background:white; border-radius:15px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  padding:15px; display:flex; flex-direction:column;
+#chat-box {
+  height: 420px;
+  padding: 10px;
+  overflow-y: auto;
 }
 
-.chat-panel { flex:2; }
-.dashboard-panel { flex:1; overflow-y:auto; }
-.dashboard-panel h2 { font-size:18px; font-weight:bold; margin-bottom:10px; }
-
-.dashboard-cards { display:flex; flex-direction:column; gap:10px; }
-
-.chat-box {
-  flex:1; padding:10px; overflow-y:auto;
-  display:flex; flex-direction:column; gap:10px;
-  border-radius:15px; background:#f0f4f8;
+.user {
+  text-align: right;
+  margin: 8px;
+  color: #2A5C9A;
 }
 
-.bot-message { background:#DCE6F1; padding:10px; border-radius:15px; max-width:80%; }
-.user-message { background:#2A5C9A; color:white; padding:10px; border-radius:15px; max-width:80%; align-self:flex-end; }
+.bot {
+  background: #eef3f8;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 8px;
+}
 
-.chat-input { display:flex; gap:10px; padding:10px; margin-top:10px; }
-.chat-input input { flex:1; padding:10px; border-radius:25px; border:1px solid #cbd5e0; }
-.chat-input button { padding:10px 15px; border-radius:25px; background:#27AE60; color:white; border:none; cursor:pointer; font-weight:bold; }
-.chat-input button:hover { background:#219653; }
+.typing {
+  opacity: 0.6;
+  font-style: italic;
+}
 
-.dashboard-card { padding:10px; border-radius:10px; font-weight:bold; color:white; }
-.safe { background:#27AE60; }
-.near-expiry { background:#F2C94C; color:#000; }
-.recalled, .expired { background:#EB5757; }
+.input-bar {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
 
-.disclaimer { text-align:center; padding:5px; font-size:12px; color:#555; margin-top:5px; }
+input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+}
+
+button {
+  background: #27AE60;
+  color: white;
+  border: none;
+  padding: 10px;
+}
+
