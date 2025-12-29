@@ -1,5 +1,6 @@
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("message-input");
+const dashboard = document.getElementById("dashboard-cards");
 
 function appendMessage(text, sender="bot") {
     const div = document.createElement("div");
@@ -7,6 +8,13 @@ function appendMessage(text, sender="bot") {
     div.className = sender==="bot" ? "bot-message" : "user-message";
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function addDashboardCard(med, status) {
+    const div = document.createElement("div");
+    div.className = "dashboard-card " + status;
+    div.innerText = `${med} - ${status.replace("-"," ").toUpperCase()}`;
+    dashboard.prepend(div);
 }
 
 async function sendMessage() {
@@ -28,6 +36,12 @@ async function sendMessage() {
         });
         const data = await res.json();
         chatBox.removeChild(typing);
+
+        let status = "safe";
+        if(data.reply.toLowerCase().includes("expired") || data.reply.toLowerCase().includes("recalled")) status = "expired";
+        else if(data.reply.toLowerCase().includes("near expiry")) status = "near-expiry";
+
+        addDashboardCard(msg, status);
         appendMessage(data.reply, "bot");
     } catch(e) {
         chatBox.removeChild(typing);
@@ -47,3 +61,4 @@ function sendQuick(text) {
 }
 
 input.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
+
