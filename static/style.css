@@ -23,23 +23,11 @@ body {
   margin: 0 0 10px 0;
 }
 
-.left-panel input, .left-panel button {
+.left-panel input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   outline: none;
-}
-
-.left-panel button {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.left-panel button:hover {
-  background: #2563eb;
 }
 
 .tips h3 {
@@ -72,19 +60,11 @@ body {
   gap: 10px;
 }
 
-.chat-box.hidden {
-  display: none;
-}
-
 .chat-input {
   display: flex;
   gap: 10px;
   padding: 10px;
   border-top: 1px solid #ccc;
-}
-
-.chat-input.hidden {
-  display: none;
 }
 
 .chat-input input {
@@ -101,6 +81,10 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.chat-input button:hover {
+  background: #2563eb;
 }
 
 .message.user {
