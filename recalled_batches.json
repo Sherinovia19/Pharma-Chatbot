@@ -1,11 +1,31 @@
 {
   "paracetamol": [
-    {"batch": "PX-123", "status": "recalled", "date": "2025-03-10"}
+    {"batch": "ABC-123", "reason": "Contamination issue"},
+    {"batch": "DEF-456", "reason": "Packaging defect"},
+    {"batch": "GHI-789", "reason": "Wrong formulation"}
   ],
   "amoxicillin": [
-    {"batch": "AMX-55", "status": "recalled", "date": "2024-12-01"}
+    {"batch": "AMX-01", "reason": "Expired early"},
+    {"batch": "AMX-02", "reason": "Label mismatch"}
   ],
   "ibuprofen": [
-    {"batch": "IB-789", "status": "recalled", "date": "2025-01-20"}
+    {"batch": "IB-100", "reason": "Impurity detected"},
+    {"batch": "IB-200", "reason": "Under-strength dosage"}
+  ],
+  "vitamin d": [
+    {"batch": "VD-01", "reason": "Contaminated packaging"},
+    {"batch": "VD-02", "reason": "Recall due to incorrect labeling"}
+  ],
+  "cough syrup": [
+    {"batch": "CS-500", "reason": "Expired solvent"},
+    {"batch": "CS-501", "reason": "Incorrect viscosity"}
+  ],
+  "antacid": [
+    {"batch": "AC-77", "reason": "High moisture content"},
+    {"batch": "AC-88", "reason": "Capsule discoloration"}
+  ],
+  "multivitamin": [
+    {"batch": "MV-10", "reason": "Mislabeled ingredients"},
+    {"batch": "MV-20", "reason": "Expired early"}
   ]
 }
