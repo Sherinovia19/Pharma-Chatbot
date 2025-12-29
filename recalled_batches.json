@@ -1,0 +1,11 @@
+{
+  "paracetamol": [
+    {"batch": "PX-123", "status": "recalled", "date": "2025-03-10"}
+  ],
+  "amoxicillin": [
+    {"batch": "AMX-55", "status": "recalled", "date": "2024-12-01"}
+  ],
+  "ibuprofen": [
+    {"batch": "IB-789", "status": "recalled", "date": "2025-01-20"}
+  ]
+}
