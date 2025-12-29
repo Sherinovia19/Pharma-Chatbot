@@ -1,3 +1,5 @@
+streamlit
 flask
 python-dotenv
 python-dateutil
+
