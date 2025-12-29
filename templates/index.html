@@ -4,68 +4,38 @@
 <meta charset="UTF-8">
 <title>MedCheck AI</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<div class="container">
-  <!-- Left Panel -->
-  <div class="left-panel">
-    <h2>Quick Medicine Check</h2>
-    <input id="medicine-name" type="text" placeholder="Medicine Name *">
-    <input id="batch-number" type="text" placeholder="Batch Number">
-    <input id="expiry-date" type="date" placeholder="Expiry Date">
-    <div class="tips">
-      <h3>Quick Tips 💡</h3>
-      <ul>
-        <li>Ask about any medicine by name</li>
-        <li>Check batch numbers for recalls</li>
-        <li>Get storage recommendations</li>
-      </ul>
+<div class="app-container">
+
+  <header class="app-header">
+    <h1>💊 MedCheck AI</h1>
+    <p>Your AI Medicine Safety Assistant</p>
+  </header>
+
+  <div class="quick-actions">
+    <button onclick="quickAction('scan')">Scan Batch #</button>
+    <button onclick="quickAction('storage')">Check Storage</button>
+    <button onclick="quickAction('side_effects')">Side Effects</button>
+  </div>
+
+  <div id="chat-box" class="chat-box">
+    <div class="bot-message">
+      Hello! 👋 I can help you check medicine safety, batch recalls, and storage advice.
     </div>
   </div>
 
-  <!-- Right Panel -->
-  <div class="right-panel">
-    <div class="chat-header">MedCheck AI</div>
-    <div id="chat-box" class="chat-box">
-      <div class="message bot">Hello! 👋 I'm your MedCheck AI assistant. How can I help you today?</div>
-    </div>
-    <div class="chat-input">
-      <input id="message-input" type="text" placeholder="Ask me anything about medicines...">
-      <button onclick="sendMessage()">Send</button>
-    </div>
+  <div class="chat-input">
+    <input type="text" id="message-input" placeholder="Type your medicine or question...">
+    <button onclick="sendMessage()">Send</button>
   </div>
+
+  <footer class="disclaimer">
+    ⚠️ AI-generated info; consult a pharmacist for medical decisions.
+  </footer>
+
 </div>
-
-<script>
-const chatBox = document.getElementById("chat-box");
-const input = document.getElementById("message-input");
-
-function appendMessage(text, sender) {
-  const msgDiv = document.createElement("div");
-  msgDiv.classList.add("message", sender);
-  msgDiv.innerText = text;
-  chatBox.appendChild(msgDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function sendMessage() {
-  const msg = input.value.trim();
-  if (!msg) return;
-  appendMessage(msg, "user");
-  input.value = "";
-
-  fetch("/api/message", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({message: msg})
-  })
-  .then(res => res.json())
-  .then(data => appendMessage(data.reply, "bot"))
-  .catch(() => appendMessage("⚠️ Bot encountered an error.", "bot"));
-}
-
-input.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
-</script>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
 </body>
 </html>
-
