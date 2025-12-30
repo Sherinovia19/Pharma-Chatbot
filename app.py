@@ -1,60 +1,32 @@
 from flask import Flask, render_template, request, jsonify
-from utils import check_expiry, check_recall
-import os
 
 app = Flask(__name__)
 
 @app.route("/")
-def index():
+def home():
     return render_template("index.html")
 
 @app.route("/api/message", methods=["POST"])
-def chat():
-    text = request.json.get("message", "").lower()
+def message():
+    data = request.get_json()
+    text = data.get("message", "").lower()
 
-    # Storage questions
-    if "store" in text:
-        if "insulin" in text:
-            return jsonify({
-                "reply": "Store insulin in a refrigerator (2–8°C). Do not freeze. Once opened, it can be kept at room temperature for up to 28 days."
-            })
-        return jsonify({
-            "reply": "Most medicines should be stored in a cool, dry place away from sunlight and moisture."
-        })
+    if "hi" in text or "hello" in text:
+        reply = "👋 Hello! I’m MedCheck AI 🩺 How can I help you today?"
+    elif "expiry" in text:
+        reply = "⏳ Always check medicine expiry. Expired medicines can be unsafe."
+    elif "tablet" in text:
+        reply = "💊 Tablets usually last 2–3 years if stored properly."
+    elif "syrup" in text:
+        reply = "🥄 Syrups expire faster after opening (1–3 months)."
+    elif "storage" in text:
+        reply = "🏥 Store medicines in a cool, dry place away from sunlight."
+    elif "pain" in text:
+        reply = "🩹 Paracetamol is commonly used for pain, but don’t exceed dosage."
+    else:
+        reply = "🩺 I can help with medicine expiry, storage, and safety advice."
 
-    # Generic fallback
-    if not text.strip():
-        return jsonify({"reply": "Please ask a medicine-related question."})
-
-    med, batch, expiry = "", "", ""
-
-    parts = text.split(",")
-    for p in parts:
-        if "batch" in p:
-            batch = p.split(":")[-1].strip()
-        elif "expiry" in p:
-            expiry = p.split(":")[-1].strip()
-        else:
-            med = p.strip()
-
-    response = f"Medicine: {med.title()}\n"
-
-    if batch:
-        recall = check_recall(med, batch)
-        response += "⚠️ Recalled batch detected.\n" if recall else "✅ No recall found.\n"
-
-    if expiry:
-        status = check_expiry(expiry)
-        if status == "expired":
-            response += "❌ This medicine is expired."
-        elif status == "near":
-            response += "⚠️ This medicine is nearing expiry."
-        else:
-            response += "✅ This medicine is safe to use."
-
-    return jsonify({"reply": response})
+    return jsonify({"reply": reply})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
+    app.run(host="0.0.0.0", port=10000)
