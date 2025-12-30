@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
 body {
   margin: 0;
   height: 100vh;
@@ -6,29 +11,39 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: Poppins, sans-serif;
 }
 
+/* Floating Emojis */
 .floating {
   position: absolute;
   font-size: 28px;
-  opacity: 0.3;
-  animation: float 12s linear infinite;
+  opacity: 0.25;
+  animation: floatRandom linear infinite;
 }
 
-@keyframes float {
-  from { transform: translateY(120vh); }
-  to { transform: translateY(-20vh); }
+.floating:nth-child(1) { left: 10%; animation-duration: 22s; }
+.floating:nth-child(2) { left: 25%; animation-duration: 28s; }
+.floating:nth-child(3) { left: 50%; animation-duration: 24s; }
+.floating:nth-child(4) { left: 70%; animation-duration: 30s; }
+.floating:nth-child(5) { left: 85%; animation-duration: 26s; }
+
+@keyframes floatRandom {
+  0%   { transform: translate(0, 120vh) rotate(0deg); }
+  25%  { transform: translate(-30px, 80vh) rotate(20deg); }
+  50%  { transform: translate(30px, 40vh) rotate(-20deg); }
+  75%  { transform: translate(-20px, 10vh) rotate(10deg); }
+  100% { transform: translate(20px, -30vh) rotate(360deg); }
 }
 
+/* Chat UI */
 .chatbox {
   width: 400px;
   height: 560px;
   background: white;
   border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 50px rgba(0,0,0,.4);
 }
 
 .header {
@@ -56,24 +71,25 @@ body {
   background: #1b9aaa;
   color: white;
   padding: 10px;
-  margin-bottom: 10px;
   border-radius: 14px;
   max-width: 75%;
   margin-left: auto;
+  margin-bottom: 10px;
 }
 
 .bot {
   background: white;
   border-left: 4px solid #28a745;
   padding: 10px;
-  margin-bottom: 10px;
   border-radius: 14px;
   max-width: 75%;
+  margin-bottom: 10px;
 }
 
 .input-box {
   display: flex;
   padding: 10px;
+  border-top: 1px solid #ddd;
 }
 
 input {
