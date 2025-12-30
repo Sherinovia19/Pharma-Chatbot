@@ -1,35 +1,16 @@
-from datetime import datetime, timedelta
-from dateutil.parser import parse
-import json
-
-with open("recalled_batches.json") as f:
-    RECALLS = json.load(f)
+from datetime import datetime
 
 def check_expiry(date_str):
     try:
-        date = parse(date_str)
-        today = datetime.now()
-        if date < today:
-            return "expired"
-        if date <= today + timedelta(days=90):
-            return "near"
-        return "safe"
+        expiry = datetime.strptime(date_str, "%d/%m/%Y").date()
+        today = datetime.today().date()
+        days_left = (expiry - today).days
+
+        if days_left < 0:
+            return "expired", abs(days_left)
+        elif days_left <= 30:
+            return "expiring_soon", days_left
+        else:
+            return "valid", days_left
     except:
-        return None
-
-def check_recall(med, batch):
-    med = med.lower()
-    if med in RECALLS:
-        for r in RECALLS[med]:
-            if r["batch"].lower() == batch.lower():
-                return r["reason"]
-    return None
-
-
-
-
-
-
-
-
-
+        return "invalid", None
