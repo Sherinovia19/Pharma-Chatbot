@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>MedCheck AI</title>
-
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="floating">💊</div>
+<div class="floating" style="left:10%">💊</div>
 <div class="floating" style="left:30%">🩺</div>
-<div class="floating" style="left:60%">💉</div>
-<div class="floating" style="left:80%">🏥</div>
+<div class="floating" style="left:50%">💉</div>
+<div class="floating" style="left:70%">🏥</div>
 
 <div class="chatbox">
   <div class="header">
-    <img src="{{ url_for('static', filename='chatbot-avatar.png') }}" />
+    <img src="{{ url_for('static', filename='chatbot-avatar.png') }}">
     <div>
-      <h2>MedCheck AI</h2>
-      <small>Your Medicine Safety Assistant</small>
+      <b>MedCheck AI</b><br>
+      <small>Medicine Safety Assistant</small>
     </div>
   </div>
 
   <div id="chat"></div>
 
   <div class="input-box">
-    <input id="msg" placeholder="Ask about medicines, expiry, safety..." />
+    <input id="msg" placeholder="Ask about medicines, expiry, batch safety..." />
     <button onclick="send()">Send</button>
   </div>
 </div>
@@ -34,4 +31,3 @@
 <script src="{{ url_for('static', filename='chat.js') }}"></script>
 </body>
 </html>
-
