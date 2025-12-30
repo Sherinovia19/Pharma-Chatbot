@@ -19,7 +19,7 @@ def message():
     if re.search(r"\b(hi|hello|hey)\b", text):
         return jsonify({"reply":
             "👋 Hello! I’m <b>MedCheck AI</b> 🩺<br>"
-            "You can check medicine expiry, batch safety, or medicine info."
+            "You can check medicine expiry, batch safety, or medicine details."
         })
 
     # Expiry check
@@ -31,7 +31,6 @@ def message():
     if match:
         med, batch, date = match.groups()
         status, days = check_expiry(date)
-
         med = med.capitalize()
 
         if status == "expired":
@@ -57,11 +56,11 @@ def message():
                 f"<b>Warning:</b> {info['warnings']}"
             })
 
-    # Storage
+    # Storage advice
     if "storage" in text:
         return jsonify({"reply":
             "🏥 <b>Medicine Storage Tips</b><br>"
-            "• Store in cool, dry place<br>"
+            "• Store in a cool, dry place<br>"
             "• Avoid sunlight & moisture<br>"
             "• Refrigerate only if instructed<br>"
             "• Keep away from children"
@@ -69,12 +68,14 @@ def message():
 
     return jsonify({"reply":
         "🩺 I can help with:<br>"
-        "• Medicine expiry check<br>"
+        "• Medicine expiry checks<br>"
         "• Batch safety<br>"
-        "• Medicine dosage & warnings<br><br>"
+        "• Dosage & warnings<br><br>"
         "<b>Example:</b><br>"
         "Check paracetamol batch ABC-123 29/12/2025"
     })
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
+
