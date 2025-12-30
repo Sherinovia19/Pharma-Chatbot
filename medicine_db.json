@@ -1,0 +1,21 @@
+{
+  "paracetamol": {
+    "use": "Pain and fever relief",
+    "adult_dose": "500–1000 mg every 6–8 hours (max 4000 mg/day)",
+    "child_dose": "10–15 mg/kg per dose",
+    "warnings": "Overdose may cause liver damage"
+  },
+  "ibuprofen": {
+    "use": "Pain, inflammation, fever",
+    "adult_dose": "200–400 mg every 6–8 hours (max 1200 mg/day)",
+    "child_dose": "10 mg/kg per dose",
+    "warnings": "Avoid in stomach ulcers or kidney disease"
+  },
+  "amoxicillin": {
+    "use": "Bacterial infections",
+    "adult_dose": "250–500 mg every 8 hours",
+    "child_dose": "20–45 mg/kg/day",
+    "warnings": "Complete full antibiotic course"
+  }
+}
+
