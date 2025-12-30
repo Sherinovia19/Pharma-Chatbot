@@ -33,6 +33,7 @@ function send() {
   });
 }
 
+// Enter key sends message only if input is not empty
 input.addEventListener("keydown", e => {
-  if (e.key === "Enter") send();
+  if (e.key === "Enter" && input.value.trim() !== "") send();
 });
