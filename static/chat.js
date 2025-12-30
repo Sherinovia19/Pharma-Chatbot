@@ -4,7 +4,7 @@ const input = document.getElementById("msg");
 function add(text, cls) {
   const d = document.createElement("div");
   d.className = cls;
-  d.innerHTML = text.replace(/\n/g, "<br>");
+  d.innerHTML = text;
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
 }
