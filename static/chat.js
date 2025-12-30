@@ -1,15 +1,15 @@
 const chat = document.getElementById("chat");
+const input = document.getElementById("msg");
 
 function add(text, cls) {
   const d = document.createElement("div");
   d.className = cls;
-  d.innerText = text;
+  d.innerHTML = text.replace(/\n/g, "<br>");
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
 }
 
 function send() {
-  const input = document.getElementById("msg");
   const text = input.value.trim();
   if (!text) return;
 
@@ -18,21 +18,21 @@ function send() {
 
   const typing = document.createElement("div");
   typing.className = "bot";
-  typing.innerText = "🩺 MedCheck AI is typing...";
+  typing.innerText = "🩺 Processing...";
   chat.appendChild(typing);
 
   fetch("/api/message", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message: text})
   })
-  .then(res => res.json())
-  .then(data => {
+  .then(r => r.json())
+  .then(d => {
     typing.remove();
-    add(data.reply, "bot");
-  })
-  .catch(() => {
-    typing.remove();
-    add("⚠️ Server error", "bot");
+    add(d.reply, "bot");
   });
 }
+
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") send();
+});
